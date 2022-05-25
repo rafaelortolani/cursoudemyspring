@@ -1,7 +1,7 @@
 package com.exemplo;
 
 import com.exemplo.domain.entity.Cliente;
-import com.exemplo.domain.repositorio.Clientes;
+import com.exemplo.domain.repository.Clientes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
