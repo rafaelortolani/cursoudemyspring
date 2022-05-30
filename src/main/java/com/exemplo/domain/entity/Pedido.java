@@ -23,7 +23,7 @@ public class Pedido {
     @Column(name ="data_pedido")
     private LocalDate dataPedido;
 
-    @Column(name="total", length = 20, precision = 2)
+    @Column(name="total", length = 20, precision = 20, scale = 2)
     private BigDecimal total;
 
     @OneToMany(mappedBy = "pedido")
@@ -39,6 +39,15 @@ public class Pedido {
 
     public Cliente getCliente() {
         return cliente;
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "id=" + id +
+                ", dataPedido=" + dataPedido +
+                ", total=" + total +
+                '}';
     }
 
     public void setCliente(Cliente cliente) {
