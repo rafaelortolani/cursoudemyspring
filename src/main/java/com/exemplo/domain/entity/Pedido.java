@@ -1,12 +1,17 @@
 package com.exemplo.domain.entity;
 
-import jdk.jfr.Enabled;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name="pedido")
 public class Pedido {
@@ -27,7 +32,7 @@ public class Pedido {
     private BigDecimal total;
 
     @OneToMany(mappedBy = "pedido")
-    private Set<ItemPedido> itemPedido;
+    private List<ItemPedido> itemPedido;
 
     public Integer getId() {
         return id;
@@ -40,39 +45,4 @@ public class Pedido {
     public Cliente getCliente() {
         return cliente;
     }
-
-    @Override
-    public String toString() {
-        return "Pedido{" +
-                "id=" + id +
-                ", dataPedido=" + dataPedido +
-                ", total=" + total +
-                '}';
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public LocalDate getDataPedido() {
-        return dataPedido;
-    }
-
-    public void setDataPedido(LocalDate dataPedido) {
-        this.dataPedido = dataPedido;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-    public Set<ItemPedido> getItemPedido() {
-        return itemPedido;
-    }
-
-    public void setItemPedido(Set<ItemPedido> itemPedido) {
-        this.itemPedido = itemPedido;
-    }}
+}
