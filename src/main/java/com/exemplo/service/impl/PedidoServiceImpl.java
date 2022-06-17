@@ -4,10 +4,12 @@ import com.exemplo.domain.entity.Cliente;
 import com.exemplo.domain.entity.ItemPedido;
 import com.exemplo.domain.entity.Pedido;
 import com.exemplo.domain.entity.Produto;
+import com.exemplo.domain.enums.StatusPedido;
 import com.exemplo.domain.repository.Clientes;
 import com.exemplo.domain.repository.ItensPedido;
 import com.exemplo.domain.repository.Pedidos;
 import com.exemplo.domain.repository.Produtos;
+import com.exemplo.exception.PedidoNaoEncontradoException;
 import com.exemplo.exception.RegraNegocioException;
 import com.exemplo.rest.dto.ItemPedidoDTO;
 import com.exemplo.rest.dto.PedidoDTO;
@@ -39,6 +41,7 @@ public class PedidoServiceImpl implements PedidosService {
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
         pedido.setCliente(cliente);
+        pedido.setStatus(StatusPedido.REALIZADO);
         List<ItemPedido> itemPedidos = converterItens(pedido, dto.getItens());
         repository.save(pedido);
         itensPedidoRepository.saveAll(itemPedidos);
@@ -67,5 +70,17 @@ public class PedidoServiceImpl implements PedidosService {
     @Override
     public Optional<Pedido> obterPedidoCompleto(Integer id) {
         return repository.findByIdFetchItens(id);
+    }
+
+    @Override
+    @Transactional
+    public void atualizaStatus(Integer id, StatusPedido statusPedido) {
+        repository
+                .findById(id)
+                .map(pedido -> {
+                    pedido.setStatus(statusPedido);
+                    return repository.save(pedido);
+                }).orElseThrow(() -> new PedidoNaoEncontradoException());
+
     }
 }

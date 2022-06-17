@@ -1,5 +1,6 @@
 package com.exemplo.domain.entity;
 
+import com.exemplo.domain.enums.StatusPedido;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,10 @@ public class Pedido {
 
     @Column(name="total", length = 20, precision = 20, scale = 2)
     private BigDecimal total;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name="status")
+    private StatusPedido status;
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itemPedido;

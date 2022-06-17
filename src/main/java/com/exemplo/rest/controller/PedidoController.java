@@ -2,6 +2,8 @@ package com.exemplo.rest.controller;
 
 import com.exemplo.domain.entity.ItemPedido;
 import com.exemplo.domain.entity.Pedido;
+import com.exemplo.domain.enums.StatusPedido;
+import com.exemplo.rest.dto.AtualizacaoStatusPedidoDTO;
 import com.exemplo.rest.dto.InformacaoItemPedidoDTO;
 import com.exemplo.rest.dto.InformacoesPedidoDTO;
 import com.exemplo.rest.dto.PedidoDTO;
@@ -52,6 +54,7 @@ public class PedidoController {
                 .dataPedido(pedido.getDataPedido().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
                 .cpf(pedido.getCliente().getCpf())
                 .nomeCliente(pedido.getCliente().getNome())
+                .status(pedido.getStatus().name())
                 .total(pedido.getTotal())
                 .itens(converter(pedido.getItemPedido()))
                 .build();
@@ -69,5 +72,12 @@ public class PedidoController {
                 .quantidade(item.getQuantidade())
                 .build()).collect(Collectors.toList());
 
+    }
+
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateStatus(@PathVariable Integer id, @RequestBody AtualizacaoStatusPedidoDTO dto){
+        String statusPedido = dto.getNovoStatus();
+        service.atualizaStatus(id, StatusPedido.valueOf(statusPedido));
     }
 }
